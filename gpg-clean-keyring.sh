@@ -6,7 +6,7 @@ SCRIPTDIR="$(dirname ${0})"
 # included, cecho just outputs without color
 if [ "${COLORTERM}" = 'yes' ]
 then
-	. "${SCRIPTDIR}/colsh/colsh_definitions.inc"
+    . "${SCRIPTDIR}/colsh/colsh_definitions.inc"
 fi
 . "${SCRIPTDIR}/colsh/colsh_cecho.inc"
 
@@ -14,9 +14,9 @@ fi
 for KEYID in `gpg --list-keys --fixed-list-mode --with-colons | grep '^pub' | cut -f5 -d':'` 
 do
     cecho --info "gpg --refresh-keys ${KEYID}"
-	gpg --batch --refresh-keys $KEYID
+    gpg --batch --refresh-keys $KEYID
     sleep 3
-	gpg --batch --edit-key $KEYID clean save
-	cecho --msg '----------- ----------- -----------'
-	sleep 3
+    gpg --batch --edit-key $KEYID clean save
+    cecho --msg '----------- ----------- -----------'
+    sleep 3
 done
