@@ -1,0 +1,3 @@
+[submodule "colsh"]
+	path = colsh
+	url = https://github.com/LeSpocky/colsh.git
