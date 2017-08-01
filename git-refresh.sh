@@ -37,7 +37,7 @@ then
 	exit 1
 fi
 
-require_clean_work_tree
+require_clean_work_tree refresh
 
 cecho --info '$ git pull'
 git pull || exit 2
