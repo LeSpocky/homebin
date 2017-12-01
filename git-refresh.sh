@@ -14,8 +14,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
+#set -x
+
 ### includes
-SCRIPTDIR="$(dirname ${0})"
+SCRIPTDIR="$(dirname "${0}")"
 
 # do color output if COLORTERM is set, if colsh_definitions.inc is not
 # included, cecho just outputs without color
@@ -43,7 +45,7 @@ cecho --info '$ git pull'
 git pull || exit 2
 
 cecho --info '$ git remote update'
-git remote update || exit 3
+git remote update --prune || exit 3
 
 cecho --info '$ git merge upstream/master'
 git merge upstream/master || exit 4
