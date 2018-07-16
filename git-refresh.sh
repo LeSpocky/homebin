@@ -45,7 +45,8 @@ cecho --info '$ git pull'
 git pull || exit 2
 
 cecho --info '$ git remote update'
-git remote update --prune || exit 3
+git fetch --all --no-tags --prune || exit 3
+git fetch --tags upstream || exit 3
 
 cecho --info '$ git merge upstream/master'
 git merge upstream/master || exit 4
