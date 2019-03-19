@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+#
+# https://unix.stackexchange.com/a/121561/50007
+#
+use strict;
+use warnings FATAL => qw(all);
+
+# Rotate files (file -> file.1, file.1 -> file.2, etc).
+
+if ($#ARGV < 0 || !-e -w $ARGV[0] || index($ARGV[0], '/') != -1) {
+        print "Existing file basename required\n";
+        exit 1;
+}
+
+my $name = $ARGV[0];
+
+opendir my $dh, './';
+my @files = ();
+my $last = 0;
+while (readdir $dh) {
+        next if !($_ =~ m/^$name\.(\d+)$/);
+        $last = $1 if $1 > $last;
+}
+close $dh;
+
+for (my $i = $last; $i > 0; $i--) {
+        rename "$name.$i", "$name.".($i + 1);
+}
+
+rename $name, "$name.1";
