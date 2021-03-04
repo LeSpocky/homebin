@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# Link: https://relentlesscoding.com/posts/passmenu-show-gui-pinentry-different-from-default-curses/
+#
+# PINENTRY_USER_DATA is a GnuPG defined variable (see man gpg)
+
+case "$PINENTRY_USER_DATA" in
+    curses)
+        exec /usr/bin/pinentry-curses "$@"
+        ;;
+    *)
+        exec /usr/bin/pinentry "$@"
+        ;;
+esac
