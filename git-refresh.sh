@@ -31,11 +31,23 @@ fi
 . "${SCRIPTDIR}/git/git-sh-setup.sh"
 
 ### main
-GIT_CURRENT_BRANCH="$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)"
-
-if [ ! "${GIT_CURRENT_BRANCH}" = 'master' ]
+if ! GIT_CURRENT_BRANCH="$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)"
 then
-	cecho --warn 'Not on master, aborting …'
+	cecho --warn 'Could not determine current branch, aborting …'
+	exit 1
+fi
+
+# remote 'upstream' expected to exist
+if ! GIT_OUTPUT="$(git remote set-head upstream -a)"
+then
+	cecho --warn 'Could not determine upstream HEAD, aborting …'
+	exit 1
+fi
+GIT_UPSTREAM_HEAD=${GIT_OUTPUT#upstream/HEAD set to }
+
+if [ ! "${GIT_CURRENT_BRANCH}" = "${GIT_UPSTREAM_HEAD}" ]
+then
+	cecho --warn "Not on branch '${GIT_UPSTREAM_HEAD}', aborting …"
 	exit 1
 fi
 
@@ -48,8 +60,8 @@ cecho --info '$ git remote update'
 git fetch --all --no-tags --prune || exit 3
 git fetch --tags upstream || exit 3
 
-cecho --info '$ git merge upstream/master'
-git merge upstream/master || exit 4
+cecho --info "$ git merge upstream/${GIT_UPSTREAM_HEAD}"
+git merge "upstream/${GIT_UPSTREAM_HEAD}" || exit 4
 
 cecho --info '$ git push'
 git push || exit 5
