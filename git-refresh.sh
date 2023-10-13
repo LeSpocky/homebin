@@ -21,7 +21,7 @@ SCRIPTDIR="$(dirname "${0}")"
 
 # do color output if COLORTERM is set, if colsh_definitions.inc is not
 # included, cecho just outputs without color
-if [ "${COLORTERM}" = 'yes' ]
+if [ "${COLORTERM}" = 'yes' ] || [ "${COLORTERM}" = 'truecolor' ]
 then
 	. "${SCRIPTDIR}/colsh/colsh_definitions.inc"
 fi
