@@ -54,7 +54,7 @@ fi
 require_clean_work_tree refresh
 
 cecho --info '$ git pull'
-git pull || exit 2
+git pull --no-tags || exit 2
 
 cecho --info '$ git remote update'
 git fetch --all --no-tags --prune || exit 3
