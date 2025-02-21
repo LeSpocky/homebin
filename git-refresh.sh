@@ -51,7 +51,27 @@ then
 	exit 1
 fi
 
-require_clean_work_tree refresh
+DO_STASH=0
+while [ -n "${1}" ]
+do
+	case "${1}" in
+		'--autostash')
+			DO_STASH=1
+			shift
+			;;
+		*)
+			echo "\$1: '${1}'"
+			break
+			;;
+	esac
+done
+
+if [ "${DO_STASH}" = 1 ]
+then
+	git stash save || exit 1
+else
+	require_clean_work_tree refresh
+fi
 
 cecho --info '$ git pull'
 git pull --no-tags || exit 2
@@ -68,6 +88,11 @@ git push || exit 5
 
 cecho --info '$ git push --tags'
 git push --tags || exit 6
+
+if [ "${DO_STASH}" = 1 ]
+then
+	git stash pop
+fi
 
 exit 0
 
