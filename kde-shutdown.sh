@@ -1,2 +1,2 @@
 #!/bin/sh
-qdbus6 org.kde.LogoutPrompt /LogoutPrompt promptAll
+qdbus6 org.kde.LogoutPrompt /LogoutPrompt promptShutDown
